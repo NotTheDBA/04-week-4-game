@@ -1,0 +1,13 @@
+/************************
+    Clear defaults.
+*************************/
+
+@import 'reset.css';
+
+body {
+    background: #005F73;
+    background-image:  url( "../images/jedi-battle.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: aliceblue;
+}
