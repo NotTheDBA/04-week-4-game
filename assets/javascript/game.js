@@ -34,7 +34,9 @@ $(document).ready(function () {
         image.addClass("character");
         image.attr("src", "assets/images/" + character);
         image.text(character);
-
+        image.on("click", function () {
+            alert(this.textContent);
+        });
         return image
     }
 
