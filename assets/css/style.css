@@ -11,3 +11,20 @@ body {
     background-repeat: no-repeat;
     color: aliceblue;
 }
+
+.character {
+    margin: 5px;
+    width: 100px; 
+}
+
+.player.character { 
+    border: aliceblue 10px solid;
+}
+
+.defender.character { 
+    border: green 10px solid;
+}
+
+.enemy.character { 
+    border: red 10px solid;
+}
