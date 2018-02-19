@@ -12,13 +12,16 @@ $(document).ready(function () {
     player.forEach(function (character) {
 
         var image = $("<img>");
-
-        // image.addClass("letter letter-button letter-button-color");
+        image.addClass("player");
+        image.addClass("character");
 
         image.attr("src", "assets/images/" + character);
         image.attr('width', '80px');
         image.text(character);
 
+        image.on("click", function () {
+            alert(this.textContent);
+        });
         // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
         $("#player-choice").append(image);
 
@@ -27,8 +30,8 @@ $(document).ready(function () {
     jedi.forEach(function (defender) {
 
         var image = $("<img>");
-
-        // image.addClass("letter letter-button letter-button-color");
+        image.addClass("defender");
+        image.addClass("character");
 
         image.attr("src", "assets/images/" + defender);
         image.attr('width', '80px');
@@ -43,8 +46,8 @@ $(document).ready(function () {
     sith.forEach(function (defender) {
 
         var image = $("<img>");
-
-        // image.addClass("letter letter-button letter-button-color");
+        image.addClass("enemy");
+        image.addClass("character");
 
         image.attr("src", "assets/images/" + defender);
         image.attr('width', '80px');
