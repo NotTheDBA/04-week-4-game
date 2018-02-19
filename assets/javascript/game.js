@@ -7,55 +7,35 @@ var sith = ["s1-Darth-Maul.jpg", "s2-Darth-Sidious.jpg", "s3-Darth-Plagueis.jpg"
 
 $(document).ready(function () {
 
+    //player choices
+    player.forEach(function (player) {
 
-    // 1. Create a for-loop to iterate through the letters array.
-    player.forEach(function (character) {
-
-        var image = $("<img>");
-        image.addClass("player");
-        image.addClass("character");
-
-        image.attr("src", "assets/images/" + character);
-        image.attr('width', '80px');
-        image.text(character);
-
-        image.on("click", function () {
-            alert(this.textContent);
-        });
-        // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
-        $("#player-choice").append(image);
+        $("#player-choice").append(characterBox(player).addClass("player"));
 
     });
 
+    //jedi choices
     jedi.forEach(function (defender) {
 
-        var image = $("<img>");
-        image.addClass("defender");
-        image.addClass("character");
-
-        image.attr("src", "assets/images/" + defender);
-        image.attr('width', '80px');
-
-        image.text(defender);
-
-        // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
-        $("#defender-choice").append(image);
+        $("#defender-choice").append(characterBox(defender).addClass("defender"));
 
     });
 
-    sith.forEach(function (defender) {
+    sith.forEach(function (enemy) {
 
-        var image = $("<img>");
-        image.addClass("enemy");
-        image.addClass("character");
-
-        image.attr("src", "assets/images/" + defender);
-        image.attr('width', '80px');
-
-        image.text(defender);
-
-        // 6. Finally, append each "letterBtn" to the "#buttons" div (provided).
-        $("#enemy-choice").append(image);
+        $("#enemy-choice").append(characterBox(enemy).addClass("enemy"));
 
     });
+
+    //sith choices
+    function characterBox(character) {
+
+        var image = $("<img>");
+        image.addClass("character");
+        image.attr("src", "assets/images/" + character);
+        image.text(character);
+
+        return image
+    }
+
 });
