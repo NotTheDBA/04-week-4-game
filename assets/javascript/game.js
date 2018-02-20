@@ -59,6 +59,8 @@ $(document).ready(function () {
         console.log(character.attributes["health"].value);
         console.log(character.attributes["attack"].value);
 
+
+
         $('#player-choice').empty();
         $("#player-choice").append(character);
 
@@ -96,5 +98,16 @@ $(document).ready(function () {
 
         character.remove();
         $("#defender-choice").append(character);
+
+        $("#fight-attack").on("click", function () {
+            playerAttack(character.attributes["attack"].value);
+            character.attributes["attack"].value++
+        });
+
     }
+
+    function playerAttack(damage) {
+        $("#defender-health").text(damage);
+    }
+
 });
