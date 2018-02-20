@@ -12,19 +12,19 @@ body {
     color: aliceblue;
 }
 
-.character {
+img {
     margin: 5px;
     width: 100px; 
 }
 
-.player.character { 
+img.player { 
     border: aliceblue 10px solid;
 }
 
-.defender.character { 
+img.defender { 
     border: green 10px solid;
 }
 
-.enemy.character { 
+img.enemy { 
     border: red 10px solid;
 }
