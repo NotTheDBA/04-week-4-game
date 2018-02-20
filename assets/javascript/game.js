@@ -39,7 +39,7 @@ $(document).ready(function () {
 
     });
 
-    //character choices
+    //character display
     function characterBox(character) {
 
         var image = $("<img>");
@@ -47,15 +47,11 @@ $(document).ready(function () {
         image.attr("id", character[0]);
 
         image.data("force", character[1]);
-        // image.on("click", function () {
-        //     defenderPick(this, image.attr('class'));
-        // });
         return image
     }
 
     function playerPick(character, force) {
-        // console.log(character);
-        // console.log(force);
+
         $('#player-choice').empty();
         $("#player-choice").append(character);
 
@@ -72,12 +68,12 @@ $(document).ready(function () {
             });
         } else {
             //jedi choices
-            jedi.forEach(function (defender) {
-                var defenderChoice = characterBox(defender)
-                defenderChoice.on("click", function () {
-                    defenderPick(this, defender[1]);
+            jedi.forEach(function (enemy) {
+                var enemyChoice = characterBox(enemy)
+                enemyChoice.on("click", function () {
+                    defenderPick(this, enemy[1]);
                 });
-                $("#enemy-choice").append(defenderChoice.addClass("jedi"));
+                $("#enemy-choice").append(enemyChoice.addClass("jedi"));
 
             });
         }
@@ -85,33 +81,7 @@ $(document).ready(function () {
     }
 
     function defenderPick(character, force) {
-        // console.log(character);
-        // console.log(character.id);
-        // var defenderChoice = characterBox(character.id)
-        // console.log(character);
-        // // defenderChoice.on("click", function () {
-        // //     defenderPick(this, character[1]);
-        // // });
-        // $("#defender-choice").append(characterBox(defenderChoice));
-
         character.remove();
-
-        // switch (group) {
-        //     case "player":
-        //         // console.log(character);
-        //         // console.log(character.data("force"));
-        //         $('#player-choice').empty();
-        //         $("#player-choice").append(character);
-
-        //         break;
-        //     case "defender":
-        //         character.remove();
-        //         break;
-
-        //     case "enemy":
-        //         console.log(character);
-        //         break;
-
-        // }
+        $("#defender-choice").append(character);
     }
 });
