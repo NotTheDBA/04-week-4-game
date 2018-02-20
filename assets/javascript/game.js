@@ -45,12 +45,19 @@ $(document).ready(function () {
         var image = $("<img>");
         image.attr("src", "assets/images/" + character[0]);
         image.attr("id", character[0]);
+        image.attr("force", character[1]);
+        image.attr("health", character[2]);
+        image.attr("attack", character[3]);
 
-        image.data("force", character[1]);
         return image
     }
 
     function playerPick(character, force) {
+        console.log(character);
+        console.log(character.id);
+        console.log(character.attributes["force"].value);
+        console.log(character.attributes["health"].value);
+        console.log(character.attributes["attack"].value);
 
         $('#player-choice').empty();
         $("#player-choice").append(character);
@@ -81,6 +88,12 @@ $(document).ready(function () {
     }
 
     function defenderPick(character, force) {
+        console.log(character);
+        console.log(character.id);
+        console.log(character.attributes["force"].value);
+        console.log(character.attributes["health"].value);
+        console.log(character.attributes["attack"].value);
+
         character.remove();
         $("#defender-choice").append(character);
     }
