@@ -21,10 +21,10 @@ img.player {
     border: aliceblue 10px solid;
 }
 
-img.defender { 
+img.jedi { 
     border: green 10px solid;
 }
 
-img.enemy { 
+img.sith { 
     border: red 10px solid;
 }
