@@ -25,6 +25,7 @@ var sith =
         , ["s5-Darth-Vesevan.jpg", "dark", 200, 12]
     ];
 
+var isFight = false;
 
 $(document).ready(function () {
 
@@ -93,8 +94,8 @@ $(document).ready(function () {
 
         $("#fight-attack").on("click", function () {
             playerAttack(character, $("#player-choice").children('img')[0]);
-
         });
+        $("#fight-attack").prop("disabled", false);
 
     }
 
@@ -105,20 +106,23 @@ $(document).ready(function () {
 
         // Defender fights back 
         trackDamage(attacker, defender.attributes["attack"].value, $("#player-health"));
-
         // Attacker increased attack value
         attacker.attributes["attack"].value = (parseInt(attacker.attributes["attack"].value) * 2);
+        // TODO:  Fix doubling of attack; needs to add base attack each time, not current attack.
+
         //defender doesn't increase their damage
+        $("#player-damage").text(attacker.attributes["attack"].value)
 
     }
 
     function trackDamage(character, damage, display) {
-        // TODO: Fix issue with zero checks
-        // TODO: Add end-fight checks
-        if (damage <= character.attributes["health"]) {
+
+        if (parseInt(damage) <= character.attributes["health"].value) {
             character.attributes["health"].value -= damage;
         } else {
             character.attributes["health"].value = 0;
+            character.remove();
+            $("#fight-attack").prop("disabled", true);
         }
 
         // Update display
