@@ -69,7 +69,7 @@ $(document).ready(function () {
                 enemyChoice.on("click", function () {
                     defenderPick(this, enemy[1]);
                 });
-                $("#enemy-choice").append(enemyChoice.addClass("sith"));
+                $("#enemy-choice").append(enemyChoice.addClass("enemy sith"));
 
             });
         } else {
@@ -79,13 +79,18 @@ $(document).ready(function () {
                 enemyChoice.on("click", function () {
                     defenderPick(this);
                 });
-                $("#enemy-choice").append(enemyChoice.addClass("jedi"));
+                $("#enemy-choice").append(enemyChoice.addClass("enemy jedi"));
 
             });
         }
     }
 
     function defenderPick(character) {
+
+        if (isFight) {
+            return;
+        }
+
 
         character.remove();
         $("#defender-choice").append(character);
@@ -95,7 +100,10 @@ $(document).ready(function () {
         $("#fight-attack").on("click", function () {
             playerAttack(character, $("#player-choice").children('img')[0]);
         });
+
         $("#fight-attack").prop("disabled", false);
+
+        isFight = true;
 
     }
 
@@ -122,6 +130,7 @@ $(document).ready(function () {
         } else {
             character.attributes["health"].value = 0;
             character.remove();
+            isFight = false;
             $("#fight-attack").prop("disabled", true);
         }
 
