@@ -28,3 +28,10 @@ img.jedi {
 img.sith { 
     border: red 10px solid;
 }
+
+.character {
+    margin: 20px auto;
+}
+.health {
+    font-size: 18px;
+}
