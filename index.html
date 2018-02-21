@@ -12,27 +12,32 @@
 </head>
 
 <body>
+    <!-- TODO: Additional styling of the page. -->
     <header>
         <h1>Jedi Battle</h1>
         <h2>An
             <span class="whisper">unofficial</span> Star Wars&trade; themed battle game</h2>
     </header>
     <section class="player">
+        <!-- TODO: End game if defeated. -->
         <div class="player character-description">Pick your character</div>
         <div class="player" id="player-choice"></div>
         <div class="player health" id="player-health"></div>
     </section>
     <section class="defender">
+        <!-- TODO: Remove active defender if defeated. -->
         <div class="defender character-description">Defender</div>
         <div class="defender" id="defender-choice"></div>
         <div class="defender health" id="defender-health"></div>
     </section>
     <section class="enemy">
+        <!-- TODO: Disable clicking of enemies during fight. -->
         <div class="enemy character-description">Enemies available to attack</div>
         <div class="enemy" id="enemy-choice"></div>
         <div class="enemy health" id="enemy-health"></div>
     </section>
     <section class="fight">
+        <!-- TODO: Disable button until both challangers are selected. -->
         <button class="fight" id="fight-attack">Fight!</button>
         <div class="fight player" id="fight-player"></div>
         <div class="fight enemy" id="fight-enemy"></div>

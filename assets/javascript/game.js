@@ -60,9 +60,10 @@ $(document).ready(function () {
         console.log(character.attributes["attack"].value);
 
 
-
         $('#player-choice').empty();
         $("#player-choice").append(character);
+
+        $("#player-health").text(character.attributes["health"].value);
 
         if (force === "light") {
 
@@ -99,6 +100,8 @@ $(document).ready(function () {
         character.remove();
         $("#defender-choice").append(character);
 
+        $("#defender-health").text(character.attributes["health"].value);
+
         $("#fight-attack").on("click", function () {
             playerAttack(character.attributes["attack"].value);
             character.attributes["attack"].value++
@@ -106,8 +109,9 @@ $(document).ready(function () {
 
     }
 
-    function playerAttack(damage) {
+    function playerAttack(damage, defender) {
         $("#defender-health").text(damage);
+        $("#player-health").text(damage);
     }
 
 });
