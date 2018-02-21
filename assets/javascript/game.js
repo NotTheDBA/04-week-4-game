@@ -100,19 +100,30 @@ $(document).ready(function () {
 
     function playerAttack(defender, attacker) {
 
-        // Track damage vs health
-        defender.attributes["health"].value -= attacker.attributes["attack"].value;
+        // Track damage vs health 
+        trackDamage(defender, attacker.attributes["attack"].value, $("#defender-health"));
+
         // Defender fights back 
-        attacker.attributes["health"].value -= defender.attributes["attack"].value
+        trackDamage(attacker, defender.attributes["attack"].value, $("#player-health"));
 
         // Attacker increased attack value
         attacker.attributes["attack"].value = (parseInt(attacker.attributes["attack"].value) * 2);
-        //defender don't increase their damage
-
-        // Update displays
-        $("#defender-health").text(defender.attributes["health"].value);
-        $("#player-health").text(attacker.attributes["health"].value);
+        //defender doesn't increase their damage
 
     }
+
+    function trackDamage(character, damage, display) {
+        // TODO: Fix issue with zero checks
+        // TODO: Add end-fight checks
+        if (damage <= character.attributes["health"]) {
+            character.attributes["health"].value -= damage;
+        } else {
+            character.attributes["health"].value = 0;
+        }
+
+        // Update display
+        display.text(character.attributes["health"].value);
+    }
+
 
 });
