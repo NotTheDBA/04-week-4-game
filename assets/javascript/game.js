@@ -1,28 +1,28 @@
 //Players - Anakin as he progresses
 var player =
-    [["p1-young-Anakin.jpg", "light", 100, 4]
-        , ["p2-prime-Anakin.jpg", "light", 120, 6]
-        , ["p3-bad-Anakin.jpg", "dark", 140, 8]
-        , ["p4-corrupt-Anakin.jpg", "dark", 160, 10]
-        , ["p5-Darth-Vader.jpg", "dark", 200, 12]
+    [["p1-young-Anakin.jpg", "light", 100, 4, "Young Anakin"]
+        , ["p2-prime-Anakin.jpg", "light", 120, 6, "Padawan Anakin"]
+        , ["p3-bad-Anakin.jpg", "dark", 140, 8, "Emo Anakin"]
+        , ["p4-corrupt-Anakin.jpg", "dark", 160, 10, "Corrupt Anakin"]
+        , ["p5-Darth-Vader.jpg", "dark", 200, 12, "Darth Anakin"]
     ];
 
 //Good guys - Jedi
 var jedi =
-    [["j1-Luke-Skywalker.jpg", "light", 100, 4]
-        , ["j2-Obi-Wan.jpg", "light", 120, 6]
-        , ["j3-Yoda.jpg", "light", 140, 8]
-        , ["j4-Aayla-Segura.jpg", "light", 160, 10]
-        , ["j5-Saesee-Tiin.jpg", "light", 200, 12]
+    [["j1-Saesee-Tiin.jpg", "light", 100, 4, "Saesee Tiin"]
+        , ["j2-Aayla-Segura.jpg", "light", 120, 6, "Aayla Segura"]
+        , ["j3-Obi-Wan.jpg", "light", 140, 8, "Obi-Wan Can-old-be"]
+        , ["j4-Yoda.jpg", "light", 160, 10, "Yoda Boghopper"]
+        , ["j5-Luke-Skywalker.jpg", "light", 200, 12, "Luke Skywalker"]
     ];
 
 //Bad guys - sith
 var sith =
-    [["s1-Darth-Maul.jpg", "dark", 100, 4]
-        , ["s2-Darth-Sidious.jpg", "dark", 120, 6]
-        , ["s3-Darth-Plagueis.jpg", "dark", 140, 8]
-        , ["s4-Darth-Revan.jpg", "dark", 160, 10]
-        , ["s5-Darth-Vesevan.jpg", "dark", 200, 12]
+    [["s1-Darth-Vesevan.jpg", "dark", 100, 4, "Darth Vesevan"]
+        , ["s2-Darth-Maul.jpg", "dark", 120, 6, "Darth Maul"]
+        , ["s3-Darth-Revan.jpg", "dark", 140, 8, "Darth Revan"]
+        , ["s4-Darth-Sidious.jpg", "dark", 160, 10, "Darth Sidious"]
+        , ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
     ];
 
 var isFight = false;
@@ -89,17 +89,18 @@ $(document).ready(function () {
     //player picks defender
     function defenderPick(defender) {
 
+        debugger;
         if (isFight) {
             return;
         }
-
-        defenderDamage += parseInt(defender.attributes["attack"].value);
+        defenderDamage = parseInt(defender.attributes["attack"].value);
         defenderHealth = defender.attributes["health"].value;
 
         defender.remove();
         $("#defender-choice").append(defender);
         $("#defender-health").text(defenderHealth);
 
+        $("#fight-attack").off("click"); //reset our button function
         $("#fight-attack").on("click", function () {
             allFight(defender, $("#player-choice").children('img')[0]);
         });
@@ -110,14 +111,20 @@ $(document).ready(function () {
 
     //Fight!
     function allFight(defender, attacker) {
+        debugger;
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
 
         // Defender fights back 
         trackDamage(attacker, defenderDamage, $("#player-health"));
 
-        // Player increases attack value
-        playerDamage += playerAttack - Math.round((defenderDamage / 2));
+        // Player increases attack value (but less against weaker opponents)
+        var defenderOffset = 0;
+        if (playerDamage > defenderDamage) {
+            defenderOffset = Math.round((defenderDamage / 2))
+        };
+        playerDamage += playerAttack - defenderOffset;
+
         //TODO: Remove damage display after function fixed.
         $("#player-damage").text(playerDamage)
         // TODO: Fix fight button for round 2
@@ -130,7 +137,8 @@ $(document).ready(function () {
     //Who's wounded
     function trackDamage(character, damage, display) {
 
-        if (parseInt(damage) <= character.attributes["health"].value) {
+        debugger;
+        if (parseInt(damage) < character.attributes["health"].value) {
             character.attributes["health"].value -= damage;
         } else {
             character.attributes["health"].value = 0;
@@ -142,12 +150,12 @@ $(document).ready(function () {
         display.text(character.attributes["health"].value);
     }
 
-    function startFight($) {
+    function startFight() {
         isFight = true;
         $("#fight-attack").prop("disabled", false);
     }
 
-    function endFight($) {
+    function endFight() {
         isFight = false;
         $("#fight-attack").prop("disabled", true);
     }
