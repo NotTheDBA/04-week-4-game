@@ -33,6 +33,22 @@ var defenderDamage = 0;
 var defenderHealth = 0;
 var defenderCount = 5;
 
+var sabers =
+    ["2 clash 2.wav"
+        , "2 clash 3.wav"
+        , "2 clash 4.wav"
+        , "2 clash 5.wav"
+        , "2 Clash Ck.wav"
+        , "2 clash.wav"
+        , "3 clash 1.wav"
+        , "3 clash 2.wav"
+        , "3 Clash Ck.wav"
+        , "4 clash 2.wav"
+        , "4 Clash good.wav"
+        , "5 clash 2.wav"
+        , "clash 01.wav"
+    ]
+
 $(document).ready(function () {
 
     //player choices
@@ -70,7 +86,7 @@ $(document).ready(function () {
 
     //player picks character
     function playerPick(character) {
-        //TODO: play sound
+
         playerAttack += parseInt(character.attributes["attack"].value);
         playerDamage += playerAttack;
         playerHealth = character.attributes["health"].value;
@@ -86,7 +102,9 @@ $(document).ready(function () {
             enemyChoices(jedi, "jedi");
         }
         $(".enemy").css("visibility", "visible");
+        fightSounds("sw4-lightsabre.wav");
     }
+
 
     //player picks defender
     function defenderPick(defender) {
@@ -94,7 +112,7 @@ $(document).ready(function () {
         if (isFight) {
             return;
         }
-        //TODO: play sound
+        fightSounds("SaberOn.wav");
         defenderDamage = parseInt(defender.attributes["attack"].value);
         defenderHealth = defender.attributes["health"].value;
 
@@ -115,7 +133,9 @@ $(document).ready(function () {
 
     //Fight!
     function allFight(defender, attacker) {
-        //TODO: play sound
+        var thisClash = sabers[Math.floor(Math.random() * sabers.length)];
+
+        fightSounds(thisClash);
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
         defenderHealth = parseInt(defender.attributes["health"].value);
@@ -130,14 +150,10 @@ $(document).ready(function () {
         if (playerAttack > defenderDamage) {
             defenderOffset = Math.round((defenderDamage / 2))
         };
+
         playerDamage += playerAttack - defenderOffset;
-
-        //TODO: Remove damage display after function fixed.
-        $("#player-damage").text(playerDamage)
-
         //defender doesn't increase their damage
 
-        debugger;
         if (playerHealth === 0) {
             endGame(false);
         } else if (defenderHealth === 0 && defenderCount === 0) {
@@ -168,6 +184,21 @@ $(document).ready(function () {
     function endFight() {
         isFight = false;
         $("#fight-attack").prop("disabled", true);
+    }
+
+    function fightSounds(sound) {
+
+        var audioSource = $("<source>");
+        var fightAudio = $('#fightAudio');
+
+        audioSource.attr("type", "audio/wav");
+        audioSource.attr("src", "assets/sounds/" + sound);
+
+        fightAudio[0].pause(); //interrupt if still playing...
+        fightAudio.empty();
+        fightAudio.append(audioSource);
+        fightAudio[0].load();
+        fightAudio[0].play();
     }
 
     function endGame(iWin) {
