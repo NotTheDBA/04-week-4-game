@@ -1,27 +1,27 @@
 //Players - Anakin as he progresses
 var player =
-    [["p1-young-Anakin.jpg", "light", 100, 4, "Young Anakin"]
-        , ["p2-prime-Anakin.jpg", "light", 120, 6, "Padawan Anakin"]
-        , ["p3-bad-Anakin.jpg", "dark", 140, 8, "Emo Anakin"]
-        , ["p4-corrupt-Anakin.jpg", "dark", 160, 10, "Corrupt Anakin"]
+    [["p1-young-Anakin.jpg", "light", 120, 4, "Young Anakin"]
+        , ["p2-prime-Anakin.jpg", "light", 140, 6, "Padawan Anakin"]
+        , ["p3-bad-Anakin.jpg", "dark", 160, 8, "Emo Anakin"]
+        , ["p4-corrupt-Anakin.jpg", "dark", 180, 10, "Corrupt Anakin"]
         , ["p5-Darth-Vader.jpg", "dark", 200, 12, "Darth Anakin"]
     ];
 
 //Good guys - Jedi
 var jedi =
-    [["j1-Saesee-Tiin.jpg", "light", 100, 4, "Saesee Tiin"]
-        , ["j2-Aayla-Segura.jpg", "light", 120, 6, "Aayla Segura"]
-        , ["j3-Obi-Wan.jpg", "light", 140, 8, "Obi-Wan Can-old-be"]
-        , ["j4-Yoda.jpg", "light", 160, 10, "Yoda Boghopper"]
+    [["j1-Saesee-Tiin.jpg", "light", 120, 4, "Saesee Tiin"]
+        , ["j2-Aayla-Segura.jpg", "light", 140, 6, "Aayla Segura"]
+        , ["j3-Obi-Wan.jpg", "light", 160, 8, "Obi-Wan Can-old-be"]
+        , ["j4-Yoda.jpg", "light", 180, 10, "Yoda Boghopper"]
         , ["j5-Luke-Skywalker.jpg", "light", 200, 12, "Luke Skywalker"]
     ];
 
 //Bad guys - sith
 var sith =
-    [["s1-Darth-Vesevan.jpg", "dark", 100, 4, "Darth Vesevan"]
-        , ["s2-Darth-Maul.jpg", "dark", 120, 6, "Darth Maul"]
-        , ["s3-Darth-Revan.jpg", "dark", 140, 8, "Darth Revan"]
-        , ["s4-Darth-Sidious.jpg", "dark", 160, 10, "Darth Sidious"]
+    [["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"]
+        , ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"]
+        , ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"]
+        , ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"]
         , ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
     ];
 
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
     //player picks character
     function playerPick(character) {
-
+        //TODO: play sound
         playerAttack += parseInt(character.attributes["attack"].value);
         playerDamage += playerAttack;
         playerHealth = character.attributes["health"].value;
@@ -94,6 +94,7 @@ $(document).ready(function () {
         if (isFight) {
             return;
         }
+        //TODO: play sound
         defenderDamage = parseInt(defender.attributes["attack"].value);
         defenderHealth = defender.attributes["health"].value;
 
@@ -114,16 +115,19 @@ $(document).ready(function () {
 
     //Fight!
     function allFight(defender, attacker) {
+        //TODO: play sound
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
         defenderHealth = parseInt(defender.attributes["health"].value);
         // Defender fights back 
-        trackDamage(attacker, defenderDamage, $("#player-health"));
-        playerHealth = parseInt(attacker.attributes["health"].value);
+        if (defenderHealth > 0) {
+            trackDamage(attacker, defenderDamage, $("#player-health"));
+            playerHealth = parseInt(attacker.attributes["health"].value);
+        }
 
         // Player increases attack value (but less against weaker opponents)
         var defenderOffset = 0;
-        if (playerDamage > defenderDamage) {
+        if (playerAttack > defenderDamage) {
             defenderOffset = Math.round((defenderDamage / 2))
         };
         playerDamage += playerAttack - defenderOffset;
