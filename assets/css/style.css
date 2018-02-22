@@ -12,6 +12,14 @@ body {
     color: aliceblue;
 }
 
+.defender {
+    visibility: hidden;
+}
+
+.enemy {
+    visibility: hidden;
+}
+
 img {
     margin: 5px;
     width: 100px; 

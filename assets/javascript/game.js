@@ -31,6 +31,7 @@ var playerDamage = 0;
 var playerHealth = 0;
 var defenderDamage = 0;
 var defenderHealth = 0;
+var defenderCount = 5;
 
 $(document).ready(function () {
 
@@ -84,12 +85,12 @@ $(document).ready(function () {
         } else {
             enemyChoices(jedi, "jedi");
         }
+        $(".enemy").css("visibility", "visible");
     }
 
     //player picks defender
     function defenderPick(defender) {
 
-        debugger;
         if (isFight) {
             return;
         }
@@ -105,18 +106,20 @@ $(document).ready(function () {
             allFight(defender, $("#player-choice").children('img')[0]);
         });
 
+        $(".defender").css("visibility", "visible");
+        defenderCount--;
         startFight();
 
     }
 
     //Fight!
     function allFight(defender, attacker) {
-        debugger;
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
-
+        defenderHealth = parseInt(defender.attributes["health"].value);
         // Defender fights back 
         trackDamage(attacker, defenderDamage, $("#player-health"));
+        playerHealth = parseInt(attacker.attributes["health"].value);
 
         // Player increases attack value (but less against weaker opponents)
         var defenderOffset = 0;
@@ -127,17 +130,20 @@ $(document).ready(function () {
 
         //TODO: Remove damage display after function fixed.
         $("#player-damage").text(playerDamage)
-        // TODO: Fix fight button for round 2
 
         //defender doesn't increase their damage
 
+        debugger;
+        if (playerHealth === 0) {
+            endGame(false);
+        } else if (defenderHealth === 0 && defenderCount === 0) {
+            endGame(true);
+        }
     }
-
 
     //Who's wounded
     function trackDamage(character, damage, display) {
 
-        debugger;
         if (parseInt(damage) < character.attributes["health"].value) {
             character.attributes["health"].value -= damage;
         } else {
@@ -158,5 +164,14 @@ $(document).ready(function () {
     function endFight() {
         isFight = false;
         $("#fight-attack").prop("disabled", true);
+    }
+
+    function endGame(iWin) {
+        // TODO: More elaborate end game
+        if (iWin) {
+            alert("You win! :-D");
+        } else {
+            alert("You lose... :-(");
+        }
     }
 });
