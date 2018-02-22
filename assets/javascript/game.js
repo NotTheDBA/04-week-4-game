@@ -26,6 +26,11 @@ var sith =
     ];
 
 var isFight = false;
+var playerAttack = 0;
+var playerDamage = 0;
+var playerHealth = 0;
+var defenderDamage = 0;
+var defenderHealth = 0;
 
 $(document).ready(function () {
 
@@ -36,10 +41,20 @@ $(document).ready(function () {
             playerPick(this);
         });
         $("#player-choice").append(playerChoice.addClass("player"));
-
     });
 
-    //character display
+    //enemy choices
+    function enemyChoices(group, side) {
+        group.forEach(function (enemy) {
+            var enemyChoice = characterBox(enemy)
+            enemyChoice.on("click", function () {
+                defenderPick(this, enemy[1]);
+            });
+            $("#enemy-choice").append(enemyChoice.addClass("enemy " + side));
+        });
+    }
+
+    //character display box
     function characterBox(character) {
 
         var image = $("<img>");
@@ -52,77 +67,67 @@ $(document).ready(function () {
         return image
     }
 
+    //player picks character
     function playerPick(character) {
 
-        $('#player-choice').empty();
-        $("#player-choice").append(character);
+        playerAttack += parseInt(character.attributes["attack"].value);
+        playerDamage += playerAttack;
+        playerHealth = character.attributes["health"].value;
 
-        $("#player-health").text(character.attributes["health"].value);
-
+        //clears group, then re-adds our choice
+        $('#player-choice').empty().append(character);
+        $("#player-health").text(playerHealth);
         $("#character-description").text(character.id);
 
         if (character.attributes["force"].value === "light") {
-
-            //sith choices
-            sith.forEach(function (enemy) {
-                var enemyChoice = characterBox(enemy)
-                enemyChoice.on("click", function () {
-                    defenderPick(this, enemy[1]);
-                });
-                $("#enemy-choice").append(enemyChoice.addClass("enemy sith"));
-
-            });
+            enemyChoices(sith, "sith");
         } else {
-            //jedi choices
-            jedi.forEach(function (enemy) {
-                var enemyChoice = characterBox(enemy)
-                enemyChoice.on("click", function () {
-                    defenderPick(this);
-                });
-                $("#enemy-choice").append(enemyChoice.addClass("enemy jedi"));
-
-            });
+            enemyChoices(jedi, "jedi");
         }
     }
 
-    function defenderPick(character) {
+    //player picks defender
+    function defenderPick(defender) {
 
         if (isFight) {
             return;
         }
 
+        defenderDamage += parseInt(defender.attributes["attack"].value);
+        defenderHealth = defender.attributes["health"].value;
 
-        character.remove();
-        $("#defender-choice").append(character);
-
-        $("#defender-health").text(character.attributes["health"].value);
+        defender.remove();
+        $("#defender-choice").append(defender);
+        $("#defender-health").text(defenderHealth);
 
         $("#fight-attack").on("click", function () {
-            playerAttack(character, $("#player-choice").children('img')[0]);
+            allFight(defender, $("#player-choice").children('img')[0]);
         });
 
-        $("#fight-attack").prop("disabled", false);
-
-        isFight = true;
+        startFight();
 
     }
 
-    function playerAttack(defender, attacker) {
-
-        // Track damage vs health 
-        trackDamage(defender, attacker.attributes["attack"].value, $("#defender-health"));
+    //Fight!
+    function allFight(defender, attacker) {
+        // Player damages Defender
+        trackDamage(defender, playerDamage, $("#defender-health"));
 
         // Defender fights back 
-        trackDamage(attacker, defender.attributes["attack"].value, $("#player-health"));
-        // Attacker increased attack value
-        attacker.attributes["attack"].value = (parseInt(attacker.attributes["attack"].value) * 2);
-        // TODO:  Fix doubling of attack; needs to add base attack each time, not current attack.
+        trackDamage(attacker, defenderDamage, $("#player-health"));
+
+        // Player increases attack value
+        playerDamage += playerAttack - Math.round((defenderDamage / 2));
+        //TODO: Remove damage display after function fixed.
+        $("#player-damage").text(playerDamage)
+        // TODO: Fix fight button for round 2
 
         //defender doesn't increase their damage
-        $("#player-damage").text(attacker.attributes["attack"].value)
 
     }
 
+
+    //Who's wounded
     function trackDamage(character, damage, display) {
 
         if (parseInt(damage) <= character.attributes["health"].value) {
@@ -130,13 +135,20 @@ $(document).ready(function () {
         } else {
             character.attributes["health"].value = 0;
             character.remove();
-            isFight = false;
-            $("#fight-attack").prop("disabled", true);
+            endFight();
         }
 
         // Update display
         display.text(character.attributes["health"].value);
     }
 
+    function startFight($) {
+        isFight = true;
+        $("#fight-attack").prop("disabled", false);
+    }
 
+    function endFight($) {
+        isFight = false;
+        $("#fight-attack").prop("disabled", true);
+    }
 });
