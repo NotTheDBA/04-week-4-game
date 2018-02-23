@@ -54,7 +54,7 @@ $(document).ready(function () {
     //player choices
     player.forEach(function (player) {
         var playerChoice = characterBox(player)
-        playerChoice.children('img').on("click", function () {
+        playerChoice.on("click", function () {
             playerPick(this);
         });
         playerChoice.children('img').addClass("player");
@@ -65,7 +65,7 @@ $(document).ready(function () {
     function enemyChoices(group, side) {
         group.forEach(function (enemy) {
             var enemyChoice = characterBox(enemy)
-            enemyChoice.children('img').on("click", function () {
+            enemyChoice.on("click", function () {
                 defenderPick(this, enemy[1]);
             });
             enemyChoice.children('img').addClass("enemy " + side);
@@ -78,25 +78,23 @@ $(document).ready(function () {
 
         var image = $("<img>");
         image.attr("src", "assets/images/" + character[0]);
-        image.attr("id", character[0]);
-        image.attr("force", character[1]);
-        image.attr("health", character[2]);
-        image.attr("attack", character[3]);
-        // return image
 
         var caption = $("<figcaption>");
         caption.text(character[4]);
 
         var figure = $("<figure>");
         figure.append(image);
-        figure.append(caption);
+        figure.append(caption); figure.attr("id", character[0]);
+        figure.attr("force", character[1]);
+        figure.attr("health", character[2]);
+        figure.attr("attack", character[3]);
 
         return figure;
     }
 
     //player picks character
     function playerPick(character) {
-        // TODO: Get picks to grab whole Figure box...
+        fightSounds("sw4-lightsabre.wav");
         playerAttack += parseInt(character.attributes["attack"].value);
         playerDamage += playerAttack;
         playerHealth = character.attributes["health"].value;
@@ -112,9 +110,7 @@ $(document).ready(function () {
             enemyChoices(jedi, "jedi");
         }
         $(".enemy").css("visibility", "visible");
-        fightSounds("sw4-lightsabre.wav");
     }
-
 
     //player picks defender
     function defenderPick(defender) {
@@ -123,6 +119,7 @@ $(document).ready(function () {
             return;
         }
         fightSounds("SaberOn.wav");
+
         defenderDamage = parseInt(defender.attributes["attack"].value);
         defenderHealth = defender.attributes["health"].value;
 
@@ -132,7 +129,7 @@ $(document).ready(function () {
 
         $("#fight-attack").off("click"); //reset our button function
         $("#fight-attack").on("click", function () {
-            allFight(defender, $("#player-choice").children('img')[0]);
+            allFight(defender, $("#player-choice").children('figure')[0]);
         });
 
         $(".defender").css("visibility", "visible");
@@ -143,9 +140,7 @@ $(document).ready(function () {
 
     //Fight!
     function allFight(defender, attacker) {
-        var thisClash = sabers[Math.floor(Math.random() * sabers.length)];
-
-        fightSounds(thisClash);
+        fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
         defenderHealth = parseInt(defender.attributes["health"].value);
