@@ -62,12 +62,12 @@ h2 {
     border: 2px #003742 solid;
     border-radius: 12px;
     color: #003742;
-    padding: 15px 32px;
+    display: inline-block;
     font-family: 'StarJedi', 'Anton', sans-serif; 
+    font-size: 16px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    padding: 15px 32px;
 }
  
 figure {
