@@ -17,6 +17,7 @@ body {
     background-repeat: no-repeat;
     color: #f0f8ff; 
     font-family: 'StarJedi', 'Anton', sans-serif; 
+    text-align: center;
     
 }
 
@@ -31,12 +32,10 @@ figcaption,
 
 h1 {
     font-size: 65px; 
-    text-align: center;
 }
 
 h2 { 
     font-size: 24px; 
-    text-align: center;
 }
 
 .health {
@@ -47,22 +46,17 @@ h2 {
     color: lightgray;
 }
 
-.defender {
-    visibility: hidden;
-}
-
+.health, 
 .enemy {
     visibility: hidden;
 }
+
+.fight,
+.defender
+ {
+    display: none; 
+}
  
-img.character {
-    width: 150px;  
-} 
-
-img.final {
-    width: 500px;  
-} 
-
 figure {
     display: inline-block;
     margin: 10px; 
@@ -72,10 +66,16 @@ figure {
 figcaption
  {  
     font-size: 12px; 
-    text-align: center;
     width: 150px;  
 } 
  
+img.character {
+    width: 150px;  
+} 
+
+img.final {
+    width: 500px;  
+}
 
 img.player { 
     border: aliceblue 10px solid;

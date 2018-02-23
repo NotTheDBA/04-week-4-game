@@ -102,6 +102,7 @@ $(document).ready(function () {
 
         //clears group, then re-adds our choice
         $('#player-choice').empty().append(character);
+        $(".health").css("visibility", "visible");
         $("#player-health").text(playerHealth);
         $("#character-description").text(character.id);
 
@@ -133,7 +134,7 @@ $(document).ready(function () {
             allFight(defender, $("#player-choice").children('figure')[0]);
         });
 
-        $(".defender").css("visibility", "visible");
+        $(".defender").css("display", "initial");
         defenderCount--;
         startFight();
 
@@ -184,12 +185,14 @@ $(document).ready(function () {
 
     function startFight() {
         isFight = true;
-        $("#fight-attack").prop("disabled", false);
+        $(".defender").css("display", "inherit");
+        $(".fight").css("display", "initial");
     }
 
     function endFight() {
         isFight = false;
-        $("#fight-attack").prop("disabled", true);
+        $(".defender").css("display", "none");
+        $(".fight").css("display", "none");
     }
 
     function fightSounds(sound) {
@@ -208,16 +211,21 @@ $(document).ready(function () {
     }
 
     function endGame(iWin) {
+        $('.character-description').text("");
+        $('.health').text("");
+        $('.fight').empty();
         if (iWin) {
             var image = $("<img>");
             image.attr("src", "assets/images/hate.gif");
             image.addClass("final");
             $('#defender-choice').empty().append(image);
+            $('#defender-label').text("You Win!")
         } else {
             var image = $("<img>");
             image.attr("src", "assets/images/chosen.jpg");
             image.addClass("final");
             $('#player-choice').empty().append(image);
+            $('#player-label').text("You Lose!")
         }
     }
 });
