@@ -56,6 +56,19 @@ h2 {
  {
     display: none; 
 }
+
+#fight-attack {
+    background-color: #c1e0fc;
+    border: 2px #003742 solid;
+    border-radius: 12px;
+    color: #003742;
+    padding: 15px 32px;
+    font-family: 'StarJedi', 'Anton', sans-serif; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
  
 figure {
     display: inline-block;
@@ -71,6 +84,7 @@ figcaption
  
 img.character {
     width: 150px;  
+    border-radius: 12px;
 } 
 
 img.final {
