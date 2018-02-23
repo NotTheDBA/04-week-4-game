@@ -54,20 +54,22 @@ $(document).ready(function () {
     //player choices
     player.forEach(function (player) {
         var playerChoice = characterBox(player)
-        playerChoice.on("click", function () {
+        playerChoice.children('img').on("click", function () {
             playerPick(this);
         });
-        $("#player-choice").append(playerChoice.addClass("player"));
+        playerChoice.children('img').addClass("player");
+        $("#player-choice").append(playerChoice);
     });
 
     //enemy choices
     function enemyChoices(group, side) {
         group.forEach(function (enemy) {
             var enemyChoice = characterBox(enemy)
-            enemyChoice.on("click", function () {
+            enemyChoice.children('img').on("click", function () {
                 defenderPick(this, enemy[1]);
             });
-            $("#enemy-choice").append(enemyChoice.addClass("enemy " + side));
+            enemyChoice.children('img').addClass("enemy " + side);
+            $("#enemy-choice").append(enemyChoice);
         });
     }
 
@@ -80,13 +82,21 @@ $(document).ready(function () {
         image.attr("force", character[1]);
         image.attr("health", character[2]);
         image.attr("attack", character[3]);
+        // return image
 
-        return image
+        var caption = $("<figcaption>");
+        caption.text(character[4]);
+
+        var figure = $("<figure>");
+        figure.append(image);
+        figure.append(caption);
+
+        return figure;
     }
 
     //player picks character
     function playerPick(character) {
-
+        // TODO: Get picks to grab whole Figure box...
         playerAttack += parseInt(character.attributes["attack"].value);
         playerDamage += playerAttack;
         playerHealth = character.attributes["health"].value;
