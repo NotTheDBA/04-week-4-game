@@ -197,6 +197,7 @@ $(document).ready(function () {
     }
 
     function fightSounds(sound) {
+        // TODO: Preload(?) sounds for game performance on phones.
 
         var audioSource = $("<source>");
         var fightAudio = $('#fightAudio');
@@ -208,7 +209,6 @@ $(document).ready(function () {
         fightAudio.empty();
         fightAudio.append(audioSource);
         fightAudio[0].load();
-        fightAudio[0].play();
     }
 
     function endGame(iWin) {
