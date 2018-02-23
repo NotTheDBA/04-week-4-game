@@ -19,11 +19,23 @@ body {
 .enemy {
     visibility: hidden;
 }
-
+ 
 img {
-    margin: 5px;
-    width: 100px; 
-}
+    width: 150px;  
+} 
+
+figure {
+    display: inline-block;
+    margin: 10px; 
+    width: 160px; 
+} 
+ 
+figcaption
+ {  
+    text-align: center;
+    width: 150px;  
+} 
+ 
 
 img.player { 
     border: aliceblue 10px solid;
@@ -38,7 +50,7 @@ img.sith {
 }
 
 .character {
-    margin: 20px auto;
+    margin: 25px auto;
 }
 .health {
     font-size: 18px;
