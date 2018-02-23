@@ -26,6 +26,7 @@ var sith =
     ];
 
 var isFight = false;
+var gameOver = false;
 var playerAttack = 0;
 var playerDamage = 0;
 var playerHealth = 0;
@@ -117,7 +118,7 @@ $(document).ready(function () {
     //player picks defender
     function defenderPick(defender) {
 
-        if (isFight) {
+        if (isFight || gameOver) {
             return;
         }
         fightSounds("SaberOn.wav");
@@ -211,6 +212,7 @@ $(document).ready(function () {
     }
 
     function endGame(iWin) {
+        gameOver = true;
         $('.character-description').text("");
         $('.health').text("");
         $('.fight').empty();
@@ -218,6 +220,7 @@ $(document).ready(function () {
             var image = $("<img>");
             image.attr("src", "assets/images/hate.gif");
             image.addClass("final");
+            $(".defender").css("display", "inherit");
             $('#defender-choice').empty().append(image);
             $('#defender-label').text("You Win!")
         } else {
