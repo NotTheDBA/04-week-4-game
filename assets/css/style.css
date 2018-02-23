@@ -2,14 +2,49 @@
     Clear defaults.
 *************************/
 
-@import 'reset.css';
-
+@import 'reset.css'; 
+@import url('https://fonts.googleapis.com/css?family=Anton'); 
+@font-face {
+    font-family: 'StarJedi';
+    src: url('../fonts/starjedi/Starjedi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 body {
     background: #005F73;
     background-image:  url( "../images/jedi-battle.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
-    color: aliceblue;
+    color: #f0f8ff; 
+    font-family: 'StarJedi', 'Anton', sans-serif; 
+    
+}
+
+h1,
+h2,
+figcaption,
+.character-description,
+.health {
+    line-height: 150%;
+
+}
+
+h1 {
+    font-size: 65px; 
+    text-align: center;
+}
+
+h2 { 
+    font-size: 24px; 
+    text-align: center;
+}
+
+.health {
+    font-size: 18px;
+}
+
+.whisper {
+    color: lightgray;
 }
 
 .defender {
@@ -20,8 +55,12 @@ body {
     visibility: hidden;
 }
  
-img {
+img.character {
     width: 150px;  
+} 
+
+img.final {
+    width: 500px;  
 } 
 
 figure {
@@ -32,6 +71,7 @@ figure {
  
 figcaption
  {  
+    font-size: 12px; 
     text-align: center;
     width: 150px;  
 } 
@@ -51,7 +91,4 @@ img.sith {
 
 .character {
     margin: 25px auto;
-}
-.health {
-    font-size: 18px;
 }
