@@ -78,6 +78,7 @@ $(document).ready(function () {
 
         var image = $("<img>");
         image.attr("src", "assets/images/" + character[0]);
+        image.addClass("character");
 
         var caption = $("<figcaption>");
         caption.text(character[4]);
@@ -207,11 +208,16 @@ $(document).ready(function () {
     }
 
     function endGame(iWin) {
-        // TODO: More elaborate end game
         if (iWin) {
-            alert("You win! :-D");
+            var image = $("<img>");
+            image.attr("src", "assets/images/hate.gif");
+            image.addClass("final");
+            $('#defender-choice').empty().append(image);
         } else {
-            alert("You lose... :-(");
+            var image = $("<img>");
+            image.attr("src", "assets/images/chosen.jpg");
+            image.addClass("final");
+            $('#player-choice').empty().append(image);
         }
     }
 });
