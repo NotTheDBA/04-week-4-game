@@ -1,29 +1,45 @@
+function Char(name, force, health, attack, image) {
+    this.name = name,
+        this.force = force,
+        this.health = health,
+        this.attack = attack,
+        this.image = image
+}
+
 //Players - Anakin as he progresses
-var player =
-    [["p1-young-Anakin.jpg", "light", 120, 4, "Young Anakin"]
-        , ["p2-prime-Anakin.jpg", "light", 140, 6, "Padawan Anakin"]
-        , ["p3-bad-Anakin.jpg", "dark", 160, 8, "Emo Anakin"]
-        , ["p4-corrupt-Anakin.jpg", "dark", 180, 10, "Corrupt Anakin"]
-        , ["p5-Darth-Vader.jpg", "dark", 200, 12, "Darth Anakin"]
-    ];
+var player = [
+    new Char(name = "Young Anakin", force = "light", health = 120, attack = 4, image = "p1-young-Anakin.jpg"),
+    new Char(name = "Padawan Anakin", force = "light", health = 140, attack = 6, image = "p2-prime-Anakin.jpg"),
+    new Char(name = "Emo Anakin", force = "dark", health = 160, attack = 8, image = "p3-bad-Anakin.jpg"),
+    new Char(name = "Corrupt Anakin", force = "dark", health = 180, attack = 10, image = "p4-corrupt-Anakin.jpg"),
+    new Char(name = "Darth Anakin", force = "dark", health = 200, attack = 12, image = "p5-Darth-Vader.jpg")
+]
 
 //Good guys - Jedi
-var jedi =
-    [["j1-Saesee-Tiin.jpg", "light", 120, 4, "Saesee Tiin"]
-        , ["j2-Aayla-Segura.jpg", "light", 140, 6, "Aayla Segura"]
-        , ["j3-Obi-Wan.jpg", "light", 160, 8, "Obi-Wan Can-old-be"]
-        , ["j4-Yoda.jpg", "light", 180, 10, "Yoda Boghopper"]
-        , ["j5-Luke-Skywalker.jpg", "light", 200, 12, "Luke Skywalker"]
-    ];
+var jedi = [
+    new Char(name = "Saesee Tiin", force = "light", health = 120, attack = 4, image = "j1-Saesee-Tiin.jpg"),
+    new Char(name = "Aayla Segura", force = "light", health = 140, attack = 6, image = "j2-Aayla-Segura.jpg"),
+    new Char(name = "Obi-Wan Can-old-be", force = "light", health = 160, attack = 8, image = "j3-Obi-Wan.jpg"),
+    new Char(name = "Yoda Boghopper", force = "light", health = 180, attack = 10, image = "j4-Yoda.jpg"),
+    new Char(name = "Luke Skywalker", force = "light", health = 200, attack = 12, image = "j5-Luke-Skywalker.jpg")
+]
 
 //Bad guys - sith
-var sith =
-    [["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"]
-        , ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"]
-        , ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"]
-        , ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"]
-        , ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
-    ];
+var sith = [
+    new Char(name = "Darth Vesevan", force = "dark", health = 120, attack = 4, image = "s1-Darth-Vesevan.jpg"),
+    new Char(name = "Darth Maul", force = "dark", health = 140, attack = 6, image = "s2-Darth-Maul.jpg"),
+    new Char(name = "Darth Revan", force = "dark", health = 160, attack = 8, image = "s3-Darth-Revan.jpg"),
+    new Char(name = "Darth Sidious", force = "dark", health = 180, attack = 10, image = "s4-Darth-Sidious.jpg"),
+    new Char(name = "Darth Plagueis", force = "dark", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
+]
+
+// var sith = [
+//     ["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"],
+//     ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"],
+//     ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"],
+//     ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"],
+//     ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
+// ];
 
 var isFight = false;
 var gameOver = false;
@@ -34,28 +50,14 @@ var defenderDamage = 0;
 var defenderHealth = 0;
 var defenderCount = 5;
 
-var sabers =
-    ["2 clash 2.wav"
-        , "2 clash 3.wav"
-        , "2 clash 4.wav"
-        , "2 clash 5.wav"
-        , "2 Clash Ck.wav"
-        , "2 clash.wav"
-        , "3 clash 1.wav"
-        , "3 clash 2.wav"
-        , "3 Clash Ck.wav"
-        , "4 clash 2.wav"
-        , "4 Clash good.wav"
-        , "5 clash 2.wav"
-        , "clash 01.wav"
-    ]
+var sabers = ["2 clash 2.wav", "2 clash 3.wav", "2 clash 4.wav", "2 clash 5.wav", "2 Clash Ck.wav", "2 clash.wav", "3 clash 1.wav", "3 clash 2.wav", "3 Clash Ck.wav", "4 clash 2.wav", "4 Clash good.wav", "5 clash 2.wav", "clash 01.wav"]
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     //player choices
-    player.forEach(function (player) {
+    player.forEach(function(player) {
         var playerChoice = characterBox(player)
-        playerChoice.on("click", function () {
+        playerChoice.on("click", function() {
             playerPick(this);
         });
         playerChoice.children('img').addClass("player");
@@ -64,9 +66,9 @@ $(document).ready(function () {
 
     //enemy choices
     function enemyChoices(group, side) {
-        group.forEach(function (enemy) {
+        group.forEach(function(enemy) {
             var enemyChoice = characterBox(enemy)
-            enemyChoice.on("click", function () {
+            enemyChoice.on("click", function() {
                 defenderPick(this, enemy[1]);
             });
             enemyChoice.children('img').addClass("enemy " + side);
@@ -76,23 +78,25 @@ $(document).ready(function () {
 
     //character display box
     function characterBox(character) {
-
+        // debugger;
         var image = $("<img>");
-        image.attr("src", "assets/images/" + character[0]);
+        image.attr("src", "assets/images/" + character.image);
         image.addClass("character");
 
         var caption = $("<figcaption>");
-        caption.text(character[4]);
+        caption.text(character.name);
 
         var figure = $("<figure>");
         figure.append(image);
-        figure.append(caption); figure.attr("id", character[0]);
-        figure.attr("force", character[1]);
-        figure.attr("health", character[2]);
-        figure.attr("attack", character[3]);
+        figure.append(caption);
+        figure.attr("id", character.name);
+        figure.attr("force", character.force);
+        figure.attr("health", character.health);
+        figure.attr("attack", character.attack);
 
         return figure;
     }
+
 
     //player picks character
     function playerPick(character) {
@@ -131,7 +135,7 @@ $(document).ready(function () {
         $("#defender-health").text(defenderHealth);
 
         $("#fight-attack").off("click"); //reset our button function
-        $("#fight-attack").on("click", function () {
+        $("#fight-attack").on("click", function() {
             allFight(defender, $("#player-choice").children('figure')[0]);
         });
 
