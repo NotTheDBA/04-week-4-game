@@ -13,29 +13,29 @@ function Char(name, force, health, attack, image) {
 
 //Players - Anakin as he progresses
 var player = [
-    new Char(name = "Young Anakin", force = "light", health = 120, attack = 4, image = "p1-young-Anakin.jpg"),
-    new Char(name = "Padawan Anakin", force = "light", health = 140, attack = 6, image = "p2-prime-Anakin.jpg"),
-    new Char(name = "Emo Anakin", force = "dark", health = 160, attack = 8, image = "p3-bad-Anakin.jpg"),
-    new Char(name = "Corrupt Anakin", force = "dark", health = 180, attack = 10, image = "p4-corrupt-Anakin.jpg"),
-    new Char(name = "Darth Anakin", force = "dark", health = 200, attack = 12, image = "p5-Darth-Vader.jpg")
+    new Char(name = "Young Anakin", force = "jedi", health = 120, attack = 4, image = "p1-young-Anakin.jpg"),
+    new Char(name = "Padawan Anakin", force = "jedi", health = 140, attack = 6, image = "p2-prime-Anakin.jpg"),
+    new Char(name = "Emo Anakin", force = "sith", health = 160, attack = 8, image = "p3-bad-Anakin.jpg"),
+    new Char(name = "Corrupt Anakin", force = "sith", health = 180, attack = 10, image = "p4-corrupt-Anakin.jpg"),
+    new Char(name = "Darth Anakin", force = "sith", health = 200, attack = 12, image = "p5-Darth-Vader.jpg")
 ]
 
 //Good guys - Jedi
 var jedi = [
-    new Char(name = "Saesee Tiin", force = "light", health = 120, attack = 4, image = "j1-Saesee-Tiin.jpg"),
-    new Char(name = "Aayla Segura", force = "light", health = 140, attack = 6, image = "j2-Aayla-Segura.jpg"),
-    new Char(name = "Obi-Wan Can-old-be", force = "light", health = 160, attack = 8, image = "j3-Obi-Wan.jpg"),
-    new Char(name = "Yoda Boghopper", force = "light", health = 180, attack = 10, image = "j4-Yoda.jpg"),
-    new Char(name = "Luke Skywalker", force = "light", health = 200, attack = 12, image = "j5-Luke-Skywalker.jpg")
+    new Char(name = "Saesee Tiin", force = "jedi", health = 120, attack = 4, image = "j1-Saesee-Tiin.jpg"),
+    new Char(name = "Aayla Segura", force = "jedi", health = 140, attack = 6, image = "j2-Aayla-Segura.jpg"),
+    new Char(name = "Obi-Wan Can-old-be", force = "jedi", health = 160, attack = 8, image = "j3-Obi-Wan.jpg"),
+    new Char(name = "Yoda Boghopper", force = "jedi", health = 180, attack = 10, image = "j4-Yoda.jpg"),
+    new Char(name = "Luke Skywalker", force = "jedi", health = 200, attack = 12, image = "j5-Luke-Skywalker.jpg")
 ]
 
 //Bad guys - sith
 var sith = [
-    new Char(name = "Darth Vesevan", force = "dark", health = 120, attack = 4, image = "s1-Darth-Vesevan.jpg"),
-    new Char(name = "Darth Maul", force = "dark", health = 140, attack = 6, image = "s2-Darth-Maul.jpg"),
-    new Char(name = "Darth Revan", force = "dark", health = 160, attack = 8, image = "s3-Darth-Revan.jpg"),
-    new Char(name = "Darth Sidious", force = "dark", health = 180, attack = 10, image = "s4-Darth-Sidious.jpg"),
-    new Char(name = "Darth Plagueis", force = "dark", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
+    new Char(name = "Darth Vesevan", force = "sith", health = 120, attack = 4, image = "s1-Darth-Vesevan.jpg"),
+    new Char(name = "Darth Maul", force = "sith", health = 140, attack = 6, image = "s2-Darth-Maul.jpg"),
+    new Char(name = "Darth Revan", force = "sith", health = 160, attack = 8, image = "s3-Darth-Revan.jpg"),
+    new Char(name = "Darth Sidious", force = "sith", health = 180, attack = 10, image = "s4-Darth-Sidious.jpg"),
+    new Char(name = "Darth Plagueis", force = "sith", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
 ]
 
 var isFight = false;
@@ -54,11 +54,8 @@ $(document).ready(function() {
     //player choices
     player.forEach(function(player) {
         var playerChoice = characterBox(player)
-            // playerChoice.on("click", function() {
-            //     playerChoice.pickMe();
-            // });
         playerChoice.on("click", function() {
-            playerPick(this);
+            playerPick(player, playerChoice);
         });
         playerChoice.children('img').addClass("player");
         $("#player-choice").append(playerChoice);
@@ -66,7 +63,6 @@ $(document).ready(function() {
 
     //character display box
     function characterBox(character) {
-        // debugger;
         var image = $("<img>");
         image.attr("src", "assets/images/" + character.image);
         image.addClass("character");
@@ -86,51 +82,50 @@ $(document).ready(function() {
     }
 
     //enemy choices
-    function enemyChoices(group, side) {
-        group.forEach(function(enemy) {
+    function enemyChoices(enemyGroup) {
+        enemyGroup.forEach(function(enemy) {
             var enemyChoice = characterBox(enemy)
             enemyChoice.on("click", function() {
-                defenderPick(this, enemy[1]);
+                defenderPick(enemy, enemyChoice);
             });
-            enemyChoice.children('img').addClass("enemy " + side);
+            enemyChoice.children('img').addClass("enemy " + enemy.force);
             $("#enemy-choice").append(enemyChoice);
         });
     }
 
     //player picks character
-    function playerPick(character) {
+    function playerPick(character, box) {
         fightSounds("sw4-lightsabre.wav");
-        playerAttack += parseInt(character.attributes["attack"].value);
+        console.log(character);
+        playerAttack += parseInt(character.attack);
         playerDamage += playerAttack;
-        playerHealth = character.attributes["health"].value;
+        playerHealth = character.health;
 
         //clears group, then re-adds our choice
-        $('#player-choice').empty().append(character);
+        // $('#player-choice').empty().append(character);
+        $('#player-choice').empty().append(box);
         $(".health").css("visibility", "visible");
         $("#player-health").text(playerHealth);
         $("#character-description").text(character.id);
 
-        if (character.attributes["force"].value === "light") {
-            enemyChoices(sith, "sith");
-        } else {
-            enemyChoices(jedi, "jedi");
-        }
+        enemyChoices((character.force === "jedi" ? sith : jedi));
+
         $(".enemy").css("visibility", "visible");
     }
 
     //player picks defender
-    function defenderPick(defender) {
+    function defenderPick(defender, box) {
 
         if (isFight || gameOver) {
             return;
         }
         fightSounds("SaberOn.wav");
 
-        defenderDamage = parseInt(defender.attributes["attack"].value);
-        defenderHealth = defender.attributes["health"].value;
+        defenderDamage = parseInt(defender.attack);
+        defenderHealth = defender.health;
 
-        defender.remove();
-        $("#defender-choice").append(defender);
+        box.remove();
+        $("#defender-choice").append(box);
         $("#defender-health").text(defenderHealth);
 
         $("#fight-attack").off("click"); //reset our button function
@@ -147,13 +142,14 @@ $(document).ready(function() {
     //Fight!
     function allFight(defender, attacker) {
         fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
+        debugger
         // Player damages Defender
         trackDamage(defender, playerDamage, $("#defender-health"));
-        defenderHealth = parseInt(defender.attributes["health"].value);
+        defenderHealth = parseInt(defender.health);
         // Defender fights back 
         if (defenderHealth > 0) {
             trackDamage(attacker, defenderDamage, $("#player-health"));
-            playerHealth = parseInt(attacker.attributes["health"].value);
+            playerHealth = parseInt(attacker.health);
         }
 
         // Player increases attack value (but less against weaker opponents)
@@ -175,16 +171,16 @@ $(document).ready(function() {
     //Who's wounded
     function trackDamage(character, damage, display) {
 
-        if (parseInt(damage) < character.attributes["health"].value) {
-            character.attributes["health"].value -= damage;
+        if (parseInt(damage) < character.health) {
+            character.health -= damage;
         } else {
-            character.attributes["health"].value = 0;
+            character.health = 0;
             character.remove();
             endFight();
         }
 
         // Update display
-        display.text(character.attributes["health"].value);
+        display.text(character.health);
     }
 
     function startFight() {
@@ -200,7 +196,6 @@ $(document).ready(function() {
     }
 
     function fightSounds(sound) {
-        // TODO: Preload(?) sounds for game performance on phones. 
         var audioSource = $("<source>");
         var fightAudio = $('#fightAudio');
 
