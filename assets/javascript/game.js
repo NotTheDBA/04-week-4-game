@@ -4,6 +4,11 @@ function Char(name, force, health, attack, image) {
         this.health = health,
         this.attack = attack,
         this.image = image
+        // pickMe = function() { mePick(this); }
+        // addEventListener("click", () => { mePick(this); }, false);
+        // on("click", function() {
+        //     playerPick(this);
+        // });
 }
 
 //Players - Anakin as he progresses
@@ -33,14 +38,6 @@ var sith = [
     new Char(name = "Darth Plagueis", force = "dark", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
 ]
 
-// var sith = [
-//     ["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"],
-//     ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"],
-//     ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"],
-//     ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"],
-//     ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
-// ];
-
 var isFight = false;
 var gameOver = false;
 var playerAttack = 0;
@@ -57,24 +54,15 @@ $(document).ready(function() {
     //player choices
     player.forEach(function(player) {
         var playerChoice = characterBox(player)
+            // playerChoice.on("click", function() {
+            //     playerChoice.pickMe();
+            // });
         playerChoice.on("click", function() {
             playerPick(this);
         });
         playerChoice.children('img').addClass("player");
         $("#player-choice").append(playerChoice);
     });
-
-    //enemy choices
-    function enemyChoices(group, side) {
-        group.forEach(function(enemy) {
-            var enemyChoice = characterBox(enemy)
-            enemyChoice.on("click", function() {
-                defenderPick(this, enemy[1]);
-            });
-            enemyChoice.children('img').addClass("enemy " + side);
-            $("#enemy-choice").append(enemyChoice);
-        });
-    }
 
     //character display box
     function characterBox(character) {
@@ -97,6 +85,17 @@ $(document).ready(function() {
         return figure;
     }
 
+    //enemy choices
+    function enemyChoices(group, side) {
+        group.forEach(function(enemy) {
+            var enemyChoice = characterBox(enemy)
+            enemyChoice.on("click", function() {
+                defenderPick(this, enemy[1]);
+            });
+            enemyChoice.children('img').addClass("enemy " + side);
+            $("#enemy-choice").append(enemyChoice);
+        });
+    }
 
     //player picks character
     function playerPick(character) {
@@ -201,8 +200,7 @@ $(document).ready(function() {
     }
 
     function fightSounds(sound) {
-        // TODO: Preload(?) sounds for game performance on phones.
-
+        // TODO: Preload(?) sounds for game performance on phones. 
         var audioSource = $("<source>");
         var fightAudio = $('#fightAudio');
 
@@ -213,6 +211,7 @@ $(document).ready(function() {
         fightAudio.empty();
         fightAudio.append(audioSource);
         fightAudio[0].load();
+        fightAudio[0].play();
     }
 
     function endGame(iWin) {
