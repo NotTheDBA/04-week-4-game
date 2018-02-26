@@ -26,7 +26,7 @@ var player = [
 var jedi = [
     new Char(name = "Saesee Tiin", force = "jedi", health = 120, attack = 4, image = "j1-Saesee-Tiin.jpg"),
     new Char(name = "Aayla Segura", force = "jedi", health = 140, attack = 6, image = "j2-Aayla-Segura.jpg"),
-    new Char(name = "Obi-Wan Can-old-be", force = "jedi", health = 160, attack = 8, image = "j3-Obi-Wan.jpg"),
+    new Char(name = "obi-Wan Can-old-be", force = "jedi", health = 160, attack = 8, image = "j3-Obi-Wan.jpg"),
     new Char(name = "Yoda Boghopper", force = "jedi", health = 180, attack = 10, image = "j4-Yoda.jpg"),
     new Char(name = "Luke Skywalker", force = "jedi", health = 200, attack = 12, image = "j5-Luke-Skywalker.jpg")
 ]
@@ -143,11 +143,13 @@ $(document).ready(function() {
         fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
         debugger;
         // Player damages Defender
-        trackDamage(theDefender, thePlayer.damage, $("#defender-health"));
+        trackDamage(theDefender, thePlayer.damage);
+        $("#defender-health").text(theDefender.health);
         // defenderHealth = parseInt(defender.health);
         // Defender fights back 
         if (theDefender.health > 0) {
-            trackDamage(thePlayer, theDefender.damage, $("#player-health"));
+            trackDamage(thePlayer, theDefender.damage);
+            $("#player-health").text(thePlayer.health);
             // thePlayer.health = parseInt(thePlayer.health);
         }
 
@@ -168,7 +170,7 @@ $(document).ready(function() {
     }
 
     //Who's wounded
-    function trackDamage(character, damage, display) {
+    function trackDamage(character, damage) {
         debugger;
         if (parseInt(damage) < character.health) {
             character.health -= damage;
@@ -177,9 +179,6 @@ $(document).ready(function() {
             character.remove();
             endFight();
         }
-
-        // Update display
-        display.text(character.health);
     }
 
     function startFight() {
