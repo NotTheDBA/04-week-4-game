@@ -1,29 +1,29 @@
 //Players - Anakin as he progresses
-var player =
-    [["p1-young-Anakin.jpg", "light", 120, 4, "Young Anakin"]
-        , ["p2-prime-Anakin.jpg", "light", 140, 6, "Padawan Anakin"]
-        , ["p3-bad-Anakin.jpg", "dark", 160, 8, "Emo Anakin"]
-        , ["p4-corrupt-Anakin.jpg", "dark", 180, 10, "Corrupt Anakin"]
-        , ["p5-Darth-Vader.jpg", "dark", 200, 12, "Darth Anakin"]
-    ];
+var player = [
+    ["p1-young-Anakin.jpg", "light", 120, 4, "Young Anakin"],
+    ["p2-prime-Anakin.jpg", "light", 140, 6, "Padawan Anakin"],
+    ["p3-bad-Anakin.jpg", "dark", 160, 8, "Emo Anakin"],
+    ["p4-corrupt-Anakin.jpg", "dark", 180, 10, "Corrupt Anakin"],
+    ["p5-Darth-Vader.jpg", "dark", 200, 12, "Darth Anakin"]
+];
 
 //Good guys - Jedi
-var jedi =
-    [["j1-Saesee-Tiin.jpg", "light", 120, 4, "Saesee Tiin"]
-        , ["j2-Aayla-Segura.jpg", "light", 140, 6, "Aayla Segura"]
-        , ["j3-Obi-Wan.jpg", "light", 160, 8, "Obi-Wan Can-old-be"]
-        , ["j4-Yoda.jpg", "light", 180, 10, "Yoda Boghopper"]
-        , ["j5-Luke-Skywalker.jpg", "light", 200, 12, "Luke Skywalker"]
-    ];
+var jedi = [
+    ["j1-Saesee-Tiin.jpg", "light", 120, 4, "Saesee Tiin"],
+    ["j2-Aayla-Segura.jpg", "light", 140, 6, "Aayla Segura"],
+    ["j3-Obi-Wan.jpg", "light", 160, 8, "Obi-Wan Can-old-be"],
+    ["j4-Yoda.jpg", "light", 180, 10, "Yoda Boghopper"],
+    ["j5-Luke-Skywalker.jpg", "light", 200, 12, "Luke Skywalker"]
+];
 
 //Bad guys - sith
-var sith =
-    [["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"]
-        , ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"]
-        , ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"]
-        , ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"]
-        , ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
-    ];
+var sith = [
+    ["s1-Darth-Vesevan.jpg", "dark", 120, 4, "Darth Vesevan"],
+    ["s2-Darth-Maul.jpg", "dark", 140, 6, "Darth Maul"],
+    ["s3-Darth-Revan.jpg", "dark", 160, 8, "Darth Revan"],
+    ["s4-Darth-Sidious.jpg", "dark", 180, 10, "Darth Sidious"],
+    ["s5-Darth-Plagueis.jpg", "dark", 200, 12, "Darth Plagueis"]
+];
 
 var isFight = false;
 var gameOver = false;
@@ -34,28 +34,14 @@ var defenderDamage = 0;
 var defenderHealth = 0;
 var defenderCount = 5;
 
-var sabers =
-    ["2 clash 2.wav"
-        , "2 clash 3.wav"
-        , "2 clash 4.wav"
-        , "2 clash 5.wav"
-        , "2 Clash Ck.wav"
-        , "2 clash.wav"
-        , "3 clash 1.wav"
-        , "3 clash 2.wav"
-        , "3 Clash Ck.wav"
-        , "4 clash 2.wav"
-        , "4 Clash good.wav"
-        , "5 clash 2.wav"
-        , "clash 01.wav"
-    ]
+var sabers = ["2 clash 2.wav", "2 clash 3.wav", "2 clash 4.wav", "2 clash 5.wav", "2 Clash Ck.wav", "2 clash.wav", "3 clash 1.wav", "3 clash 2.wav", "3 Clash Ck.wav", "4 clash 2.wav", "4 Clash good.wav", "5 clash 2.wav", "clash 01.wav"]
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     //player choices
-    player.forEach(function (player) {
+    player.forEach(function(player) {
         var playerChoice = characterBox(player)
-        playerChoice.on("click", function () {
+        playerChoice.on("click", function() {
             playerPick(this);
         });
         playerChoice.children('img').addClass("player");
@@ -64,9 +50,9 @@ $(document).ready(function () {
 
     //enemy choices
     function enemyChoices(group, side) {
-        group.forEach(function (enemy) {
+        group.forEach(function(enemy) {
             var enemyChoice = characterBox(enemy)
-            enemyChoice.on("click", function () {
+            enemyChoice.on("click", function() {
                 defenderPick(this, enemy[1]);
             });
             enemyChoice.children('img').addClass("enemy " + side);
@@ -86,7 +72,8 @@ $(document).ready(function () {
 
         var figure = $("<figure>");
         figure.append(image);
-        figure.append(caption); figure.attr("id", character[0]);
+        figure.append(caption);
+        figure.attr("id", character[0]);
         figure.attr("force", character[1]);
         figure.attr("health", character[2]);
         figure.attr("attack", character[3]);
@@ -131,7 +118,7 @@ $(document).ready(function () {
         $("#defender-health").text(defenderHealth);
 
         $("#fight-attack").off("click"); //reset our button function
-        $("#fight-attack").on("click", function () {
+        $("#fight-attack").on("click", function() {
             allFight(defender, $("#player-choice").children('figure')[0]);
         });
 
@@ -202,13 +189,14 @@ $(document).ready(function () {
         var audioSource = $("<source>");
         var fightAudio = $('#fightAudio');
 
-        audioSource.attr("type", "audio/wav");
+        // audioSource.attr("type", "audio/wav");
         audioSource.attr("src", "assets/sounds/" + sound);
 
         fightAudio[0].pause(); //interrupt if still playing...
         fightAudio.empty();
         fightAudio.append(audioSource);
         fightAudio[0].load();
+        fightAudio[0].play();
     }
 
     function endGame(iWin) {
