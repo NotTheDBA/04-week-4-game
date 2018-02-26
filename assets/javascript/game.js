@@ -1,15 +1,17 @@
 function Char(name, force, health, attack, image) {
     this.name = name,
+        this.image = image,
         this.force = force,
         this.health = health,
         this.attack = attack,
-        this.image = image
+        this.damage = attack
         // pickMe = function() { mePick(this); }
         // addEventListener("click", () => { mePick(this); }, false);
         // on("click", function() {
         //     playerPick(this);
         // });
 }
+
 
 //Players - Anakin as he progresses
 var player = [
@@ -37,14 +39,13 @@ var sith = [
     new Char(name = "Darth Sidious", force = "sith", health = 180, attack = 10, image = "s4-Darth-Sidious.jpg"),
     new Char(name = "Darth Plagueis", force = "sith", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
 ]
+debugger;
+var thePlayer = new Char(name = "", force = "", health = 0, attack = 0, image = "");
+var theDefender = new Char(name = "", force = "", health = 0, attack = 0, image = "");
 
 var isFight = false;
 var gameOver = false;
-var playerAttack = 0;
-var playerDamage = 0;
-var playerHealth = 0;
-var defenderDamage = 0;
-var defenderHealth = 0;
+
 var defenderCount = 5;
 
 var sabers = ["2 clash 2.wav", "2 clash 3.wav", "2 clash 4.wav", "2 clash 5.wav", "2 Clash Ck.wav", "2 clash.wav", "3 clash 1.wav", "3 clash 2.wav", "3 Clash Ck.wav", "4 clash 2.wav", "4 Clash good.wav", "5 clash 2.wav", "clash 01.wav"]
@@ -96,19 +97,17 @@ $(document).ready(function() {
     //player picks character
     function playerPick(character, box) {
         fightSounds("sw4-lightsabre.wav");
-        console.log(character);
-        playerAttack += parseInt(character.attack);
-        playerDamage += playerAttack;
-        playerHealth = character.health;
+
+        thePlayer = character;
 
         //clears group, then re-adds our choice
-        // $('#player-choice').empty().append(character);
+
         $('#player-choice').empty().append(box);
         $(".health").css("visibility", "visible");
-        $("#player-health").text(playerHealth);
-        $("#character-description").text(character.id);
+        $("#player-health").text(thePlayer.health);
+        $("#character-description").text(thePlayer.name);
 
-        enemyChoices((character.force === "jedi" ? sith : jedi));
+        enemyChoices((thePlayer.force === "jedi" ? sith : jedi));
 
         $(".enemy").css("visibility", "visible");
     }
@@ -121,16 +120,16 @@ $(document).ready(function() {
         }
         fightSounds("SaberOn.wav");
 
-        defenderDamage = parseInt(defender.attack);
-        defenderHealth = defender.health;
+        theDefender = defender;
 
         box.remove();
         $("#defender-choice").append(box);
-        $("#defender-health").text(defenderHealth);
+        $("#defender-health").text(theDefender.health);
 
         $("#fight-attack").off("click"); //reset our button function
+        // console.log(defender);
         $("#fight-attack").on("click", function() {
-            allFight(defender, $("#player-choice").children('figure')[0]);
+            allFight(theDefender, thePlayer);
         });
 
         $(".defender").css("display", "initial");
@@ -142,35 +141,35 @@ $(document).ready(function() {
     //Fight!
     function allFight(defender, attacker) {
         fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
-        debugger
+        debugger;
         // Player damages Defender
-        trackDamage(defender, playerDamage, $("#defender-health"));
-        defenderHealth = parseInt(defender.health);
+        trackDamage(theDefender, thePlayer.damage, $("#defender-health"));
+        // defenderHealth = parseInt(defender.health);
         // Defender fights back 
-        if (defenderHealth > 0) {
-            trackDamage(attacker, defenderDamage, $("#player-health"));
-            playerHealth = parseInt(attacker.health);
+        if (theDefender.health > 0) {
+            trackDamage(thePlayer, theDefender.damage, $("#player-health"));
+            // thePlayer.health = parseInt(thePlayer.health);
         }
 
         // Player increases attack value (but less against weaker opponents)
         var defenderOffset = 0;
-        if (playerAttack > defenderDamage) {
-            defenderOffset = Math.round((defenderDamage / 2))
+        if (thePlayer.attack > theDefender.damage) {
+            defenderOffset = Math.round((theDefender.damage / 2))
         };
 
-        playerDamage += playerAttack - defenderOffset;
+        thePlayer.damage += thePlayer.attack - defenderOffset;
         //defender doesn't increase their damage
 
-        if (playerHealth === 0) {
+        if (thePlayer.health === 0) {
             endGame(false);
-        } else if (defenderHealth === 0 && defenderCount === 0) {
+        } else if (theDefender.health === 0 && defenderCount === 0) {
             endGame(true);
         }
     }
 
     //Who's wounded
     function trackDamage(character, damage, display) {
-
+        debugger;
         if (parseInt(damage) < character.health) {
             character.health -= damage;
         } else {
