@@ -2,23 +2,23 @@
     Clear defaults.
 *************************/
 
-@import 'reset.css'; 
-@import url('https://fonts.googleapis.com/css?family=Anton'); 
+@import 'reset.css';
+@import url('https://fonts.googleapis.com/css?family=Anton');
 @font-face {
     font-family: 'StarJedi';
     src: url('../fonts/starjedi/Starjedi.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 body {
     background: #005F73;
-    background-image:  url( "../images/jedi-battle.jpg");
+    background-image: url("../images/jedi-battle.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
-    color: #f0f8ff; 
-    font-family: 'StarJedi', 'Anton', sans-serif; 
+    color: #f0f8ff;
+    font-family: 'StarJedi', 'Anton', sans-serif;
     text-align: center;
-    
 }
 
 h1,
@@ -27,15 +27,14 @@ figcaption,
 .character-description,
 .health {
     line-height: 150%;
-
 }
 
 h1 {
-    font-size: 65px; 
+    font-size: 65px;
 }
 
-h2 { 
-    font-size: 24px; 
+h2 {
+    font-size: 24px;
 }
 
 .health {
@@ -46,15 +45,14 @@ h2 {
     color: lightgray;
 }
 
-.health, 
+.health,
 .enemy {
     visibility: hidden;
 }
 
 .fight,
-.defender
- {
-    display: none; 
+.defender {
+    display: none;
 }
 
 #fight-attack {
@@ -63,44 +61,47 @@ h2 {
     border-radius: 12px;
     color: #003742;
     display: inline-block;
-    font-family: 'StarJedi', 'Anton', sans-serif; 
+    font-family: 'StarJedi', 'Anton', sans-serif;
     font-size: 16px;
     text-align: center;
     text-decoration: none;
     padding: 15px 32px;
 }
- 
+
 figure {
     display: inline-block;
-    margin: 10px; 
-    width: 160px; 
-} 
- 
-figcaption
- {  
-    font-size: 12px; 
-    width: 150px;  
-} 
- 
-img.character {
-    width: 150px;  
-    border-radius: 12px;
-} 
-
-img.final {
-    width: 500px;  
+    margin: 10px;
+    width: 160px;
 }
 
-img.player { 
+figcaption {
+    font-size: 12px;
+    width: 150px;
+}
+
+img.character {
+    width: 150px;
+    border-radius: 12px;
+}
+
+img.final {
+    width: 500px;
+}
+
+img.player {
     border: aliceblue 10px solid;
 }
 
-img.jedi { 
+img.jedi {
     border: green 10px solid;
 }
 
-img.sith { 
+img.sith {
     border: red 10px solid;
+}
+
+.final {
+    font-size: x-large;
 }
 
 .character {

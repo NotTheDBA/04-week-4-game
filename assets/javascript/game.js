@@ -12,7 +12,6 @@ function Char(name, force, health, attack, image) {
         // });
 }
 
-
 //Players - Anakin as he progresses
 var player = [
     new Char(name = "Young Anakin", force = "jedi", health = 120, attack = 4, image = "p1-young-Anakin.jpg"),
@@ -46,7 +45,7 @@ var theDefender = new Char(name = "", force = "", health = 0, attack = 0, image 
 var isFight = false;
 var gameOver = false;
 
-var defenderCount = 5;
+var defenderCount = 0;
 var audio = new Audio("assets/sounds/clash 01.wav");
 var sabers = ["2 clash 2.wav", "2 clash 3.wav", "2 clash 4.wav", "2 clash 5.wav", "2 Clash Ck.wav", "2 clash.wav", "3 clash 1.wav", "3 clash 2.wav", "3 Clash Ck.wav", "4 clash 2.wav", "4 Clash good.wav", "5 clash 2.wav", "clash 01.wav"]
 
@@ -65,25 +64,24 @@ $(document).ready(function() {
     //character display box
     function characterBox(character) {
         var image = $("<img>");
-        image.attr("src", "assets/images/" + character.image);
         image.addClass("character");
+        image.attr("src", "assets/images/" + character.image);
 
-        var caption = $("<figcaption>");
-        caption.text(character.name);
+        var caption = $("<figcaption>").text(character.name);
 
         var figure = $("<figure>");
+        figure.attr("id", character.name);
         figure.append(image);
         figure.append(caption);
-        figure.attr("id", character.name);
-        figure.attr("force", character.force);
-        figure.attr("health", character.health);
-        figure.attr("attack", character.attack);
 
         return figure;
     }
 
     //enemy choices
     function enemyChoices(enemyGroup) {
+
+        defenderCount = enemyGroup.length;
+
         enemyGroup.forEach(function(enemy) {
             var enemyChoice = characterBox(enemy)
             enemyChoice.on("click", function() {
@@ -92,6 +90,8 @@ $(document).ready(function() {
             enemyChoice.children('img').addClass("enemy " + enemy.force);
             $("#enemy-choice").append(enemyChoice);
         });
+
+        $(".enemy").css("visibility", "visible");
     }
 
     //player picks character
@@ -101,20 +101,18 @@ $(document).ready(function() {
         thePlayer = character;
 
         //clears group, then re-adds our choice
-
         $('#player-choice').empty().append(box);
         $(".health").css("visibility", "visible");
         $("#player-health").text(thePlayer.health);
         $("#character-description").text(thePlayer.name);
 
         enemyChoices((thePlayer.force === "jedi" ? sith : jedi));
-
-        $(".enemy").css("visibility", "visible");
     }
 
     //player picks defender
     function defenderPick(defender, box) {
 
+        // no double-select defenders
         if (isFight || gameOver) {
             return;
         }
@@ -126,9 +124,8 @@ $(document).ready(function() {
         $("#defender-choice").append(box);
         $("#defender-health").text(theDefender.health);
 
-        $("#fight-attack").off("click"); //reset our button function
-        // console.log(defender);
-        $("#fight-attack").on("click", function() {
+        //reset our button function
+        $("#fight-attack").off("click").on("click", function() {
             allFight(theDefender, thePlayer);
         });
 
@@ -141,16 +138,18 @@ $(document).ready(function() {
     //Fight!
     function allFight(defender, attacker) {
         fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
-        //        debugger;
         // Player damages Defender
         trackDamage(theDefender, thePlayer.damage);
-        $("#defender-health").text(theDefender.health);
-        // defenderHealth = parseInt(defender.health);
         // Defender fights back 
         if (theDefender.health > 0) {
+            $("#defender-health").text(theDefender.health);
             trackDamage(thePlayer, theDefender.damage);
-            $("#player-health").text(thePlayer.health);
-            // thePlayer.health = parseInt(thePlayer.health);
+            if (thePlayer.health > 0) {
+                $("#player-health").text(thePlayer.health);
+            }
+        } else {
+            //remove current defender
+            $("#defender-choice").empty();
         }
 
         // Player increases attack value (but less against weaker opponents)
@@ -171,12 +170,10 @@ $(document).ready(function() {
 
     //Who's wounded
     function trackDamage(character, damage) {
-        debugger;
         if (parseInt(damage) < character.health) {
             character.health -= damage;
         } else {
             character.health = 0;
-            character.remove();
             endFight();
         }
     }
@@ -194,12 +191,9 @@ $(document).ready(function() {
     }
 
     function fightSounds(sound) {
-
-
         audio.pause(); //interrupt if still playing...
         audio.src = "assets/sounds/" + sound;
         audio.play();
-
     }
 
     function endGame(iWin) {
@@ -207,19 +201,20 @@ $(document).ready(function() {
         $('.character-description').text("");
         $('.health').text("");
         $('.fight').empty();
+        var image = $("<img>");
+        image.addClass("final");
+
         if (iWin) {
-            var image = $("<img>");
             image.attr("src", "assets/images/hate.gif");
-            image.addClass("final");
-            $(".defender").css("display", "inherit");
             $('#defender-choice').empty().append(image);
-            $('#defender-label').text("You Win!")
+
+            $('#defender-label').addClass("final").text("You Win!")
+            $(".defender").css("display", "inherit");
         } else {
-            var image = $("<img>");
             image.attr("src", "assets/images/chosen.jpg");
-            image.addClass("final");
             $('#player-choice').empty().append(image);
-            $('#player-label').text("You Lose!")
+
+            $('#player-label').addClass("final").text("You Lose!")
         }
     }
 });
