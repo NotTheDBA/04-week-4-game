@@ -39,7 +39,7 @@ var sith = [
     new Char(name = "Darth Sidious", force = "sith", health = 180, attack = 10, image = "s4-Darth-Sidious.jpg"),
     new Char(name = "Darth Plagueis", force = "sith", health = 200, attack = 12, image = "s5-Darth-Plagueis.jpg")
 ]
-debugger;
+
 var thePlayer = new Char(name = "", force = "", health = 0, attack = 0, image = "");
 var theDefender = new Char(name = "", force = "", health = 0, attack = 0, image = "");
 
@@ -47,7 +47,7 @@ var isFight = false;
 var gameOver = false;
 
 var defenderCount = 5;
-
+var audio = new Audio("assets/sounds/clash 01.wav");
 var sabers = ["2 clash 2.wav", "2 clash 3.wav", "2 clash 4.wav", "2 clash 5.wav", "2 Clash Ck.wav", "2 clash.wav", "3 clash 1.wav", "3 clash 2.wav", "3 Clash Ck.wav", "4 clash 2.wav", "4 Clash good.wav", "5 clash 2.wav", "clash 01.wav"]
 
 $(document).ready(function() {
@@ -141,7 +141,7 @@ $(document).ready(function() {
     //Fight!
     function allFight(defender, attacker) {
         fightSounds(sabers[Math.floor(Math.random() * sabers.length)]);
-        debugger;
+        //        debugger;
         // Player damages Defender
         trackDamage(theDefender, thePlayer.damage);
         $("#defender-health").text(theDefender.health);
@@ -194,17 +194,12 @@ $(document).ready(function() {
     }
 
     function fightSounds(sound) {
-        var audioSource = $("<source>");
-        var fightAudio = $('#fightAudio');
 
-        audioSource.attr("type", "audio/wav");
-        audioSource.attr("src", "assets/sounds/" + sound);
 
-        fightAudio[0].pause(); //interrupt if still playing...
-        fightAudio.empty();
-        fightAudio.append(audioSource);
-        fightAudio[0].load();
-        fightAudio[0].play();
+        audio.pause(); //interrupt if still playing...
+        audio.src = "assets/sounds/" + sound;
+        audio.play();
+
     }
 
     function endGame(iWin) {
