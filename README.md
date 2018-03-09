@@ -3,4 +3,4 @@
 
 The purpose of this game is to demonstrate a working knowledge of jQuery for program logic and DOM manipulation.  It is written to take advantage of HTML5 elements and CSS styling.
 
-You can access the demo <a href="https://notthedba.github.io/week-4-game/">here</a>.
+You can access the demo <a href="https://notthedba.github.io/jedi-battle/">here</a>.
